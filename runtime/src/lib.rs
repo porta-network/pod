@@ -626,6 +626,10 @@ parameter_types! {
 		schedule.limits.code_len = 256 * 1024;
 		schedule
 	};
+	pub ContractDeposit: Balance = deposit(
+		1,
+		<pallet_contracts::Pallet<Runtime>>::contract_info_size(),
+	);
 }
 
 impl pallet_contracts::Config for Runtime {
@@ -650,7 +654,9 @@ impl pallet_contracts::Config for Runtime {
 	type CallStack = [pallet_contracts::Frame<Self>; 31];
 	type DeletionQueueDepth = DeletionQueueDepth;
 	type DeletionWeightLimit = DeletionWeightLimit;
-	type ContractDeposit = ();
+	// type ContractDeposit = Self::ContractDeposit;
+	type ContractDeposit = ContractDeposit;
+
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
